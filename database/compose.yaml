@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  neo4j:
+    image: neo4j:latest
+    container_name: neo4j
+    environment:
+      - NEO4J_AUTH=neo4j/testtest
+    ports:
+      - "7474:7474"
+      - "7687:7687"
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: mydatabase
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypassword
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data-v2:/var/lib/postgresql/data
+
+volumes:
+  postgres-data-v2:

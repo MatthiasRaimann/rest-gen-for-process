@@ -1,0 +1,17 @@
+resources:
+  Case:
+    description: String
+    affectedPerson: String
+  Solution:
+    description: String
+    supporter: String
+  Accepted:
+    accepted: Boolean
+    feedback: String
+tasks:
+  Initialize Case:
+    - Case
+  Accept Solution:
+    - Accepted
+  Propose Solution:
+    - Solution

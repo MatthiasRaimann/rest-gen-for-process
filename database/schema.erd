@@ -1,0 +1,20 @@
+erdiagram Model
+
+notation=default
+
+entity ProcessInstance {
+   processInstanceID key
+   name
+}
+entity Resource {
+   id key
+   name 
+   payload
+}
+relationship besitzt {
+   ProcessInstance[1] -> Resource[N]
+}
+
+relationship hat {
+   ProcessInstance[1] -> ProcessInstance[N]
+}

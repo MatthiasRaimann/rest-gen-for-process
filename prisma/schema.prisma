@@ -1,0 +1,38 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model ProcessInstance {
+  id                String   @id
+  name              String
+  parentProcessId   String?
+  created           DateTime @default(now())
+  parent            ProcessInstance? @relation("ProcessInstanceToProcessInstance", fields: [parentProcessId], references: [id])
+  childProcesses    ProcessInstance[] @relation("ProcessInstanceToProcessInstance")
+  resources         Resource[] @relation("ProcessInstanceToResource")
+  @@unique([parentProcessId, id])
+  // @@
+  // @@check(parentProcessId != id, "parentProcessId and id must be different")
+}
+
+model Resource {
+  id          Int   @id @default(autoincrement())
+  name        String
+  payload     String
+  parentId    String
+  lastUpdate  DateTime @default(now())
+  parent      ProcessInstance @relation("ProcessInstanceToResource", fields: [parentId], references: [id])
+  // @@unique([parentId, name])
+}
+
